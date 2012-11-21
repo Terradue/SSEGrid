@@ -1,0 +1,10 @@
+WPS_INPUT_platformShortName SPOT5
+WPS_INPUT_productType FreeP
+WPS_INPUT_roiTopLeftLat 72
+WPS_INPUT_roiTopLeftLon -15
+WPS_INPUT_roiBottomRightLat 22
+WPS_INPUT_roiBottomRightLon 70
+WPS_INPUT_stopOnError true
+WPS_INPUT_startDate 2010-05-01T00:00:00.000Z
+WPS_INPUT_stopDate 2010-05-10T23:59:59.000Z
+WPS_INPUT_disableCache true

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+export JAVA_SAGA_LOCATION=`cd ../../ && pwd`
+export CLASSPATH="$PWD/tmp/:$CLASSPATH"
+export WPS_HOME=$JAVA_SAGA_LOCATION/var
+
+$JAVA_SAGA_LOCATION/bin/run-saga-app -Xmx256M com.terradue.ssegrid.test.MyProxyClientTest

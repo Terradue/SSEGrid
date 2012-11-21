@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- * * postaration processing template JSDL. * * -->
+<jsdl:JobDefinition xmlns:jsdl="http://schemas.ggf.org/jsdl/2005/11/jsdl"
+	xmlns:jsdl-spmd="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+	xmlns:jsdl-t2="http://www.terradue.com/schema/jsdl/jsdl-t2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.ggf.org/jsdl/2005/11/jsdl http://schemas.ggf.org/jsdl/2005/11/jsdl">
+	<jsdl:JobDescription>
+		<jsdl:JobIdentification>
+			<jsdl:JobName>post</jsdl:JobName>
+			<!-- Some Description -->
+			<jsdl:Description>post Job</jsdl:Description>
+		</jsdl:JobIdentification>
+		<!-- This section describes the application following the SPMD extension -->
+		<jsdl:Application>
+			<jsdl:ApplicationName>post Job</jsdl:ApplicationName>
+			<jsdl-posix:POSIXApplication
+				xmlns:jsdl-posix="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix"
+				xsi:schemaLocation="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<jsdl-posix:Executable>/bin/sh</jsdl-posix:Executable>
+				<jsdl-posix:Argument>GAI_postProc4GRID.sh</jsdl-posix:Argument>
+				<jsdl-posix:Output>post.out</jsdl-posix:Output>
+				<jsdl-posix:Error>post.err</jsdl-posix:Error>
+			</jsdl-posix:POSIXApplication>
+		</jsdl:Application>
+		<jsdl:DataStaging>
+			<jsdl:FileName>GAI_postProc4GRID.sh</jsdl:FileName>
+			<jsdl:Source>
+				<jsdl:URI>${GAI_CLIENT_HOME}/libexec/postProc4GRID.sh</jsdl:URI>
+			</jsdl:Source>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<jsdl:FileName>post.out</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${GAI_CLIENT_HOME}/var/log/${GAI_JOB_UID}.post.out</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<jsdl:FileName>post.err</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${GAI_CLIENT_HOME}/var/log/${GAI_JOB_UID}.post.err</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+	</jsdl:JobDescription>
+</jsdl:JobDefinition>

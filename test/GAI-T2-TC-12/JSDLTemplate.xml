@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<JobDefinition xmlns="http://schemas.ggf.org/jsdl/2005/11/jsdl"
+  xmlns:posix="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix"
+  xmlns:spmd="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+  xmlns:jsdl-t2="http://www.terradue.com/schema/jsdl/jsdl-t2">
+  <JobDescription>
+    <JobIdentification>
+      <JobName>ImportVGT</JobName>
+      <Description>Import VGT</Description>
+    </JobIdentification>
+    <Application>
+      <ApplicationName>ImportVGT</ApplicationName>
+      <spmd:SPMDApplication>
+        <posix:Executable>import4Grid.sh</posix:Executable>
+        <posix:Environment name="VGT_BIN_DIR">${GAI_JOB_WORKING_DIR}/bin</posix:Environment>
+        <posix:Environment name="VGT_AUX_DIR">${GAI_JOB_WORKING_DIR}/aux-data</posix:Environment>
+        <posix:Environment name="VGT_DAT_DIR">${GAI_JOB_WORKING_DIR}/dat</posix:Environment>
+        <!--
+          This doesn't seem to work ...
+          <posix:Environment name="GDROOT">$VGT_AUX_DIR/geodef/gdsoft</posix:Environment>
+          <posix:Environment name="GEODATA">$GDROOT/bibli/gdlib233/data</posix:Environment>
+          <posix:Environment name="GEODEFHOME">$GDROOT</posix:Environment>
+        -->
+        <posix:Environment name="GDROOT">${GAI_JOB_WORKING_DIR}/aux-data/geodef/gdsoft</posix:Environment>
+        <posix:Environment name="GEODATA">${GAI_JOB_WORKING_DIR}/aux-data/geodef/gdsoft/bibli/gdlib233/data</posix:Environment>
+        <posix:Environment name="GEODEFHOME">${GAI_JOB_WORKING_DIR}/aux-data/geodef/gdsoft</posix:Environment>
+        <posix:Argument>${WPS_INPUT_roiTlx}</posix:Argument>
+        <posix:Argument>${WPS_INPUT_roiTly}</posix:Argument>
+        <posix:Argument>${WPS_INPUT_roiBrx}</posix:Argument>
+        <posix:Argument>${WPS_INPUT_roiBry}</posix:Argument>
+        <posix:Input>inputURLs.${GAI_TASK_ID}</posix:Input>
+        <posix:Output>${GAI_JOB_WORKING_DIR}/job.${GAI_TASK_ID}.stdout</posix:Output>
+        <posix:Error>${GAI_JOB_WORKING_DIR}/job.${GAI_TASK_ID}.stderr</posix:Error>
+        <posix:WorkingDirectory>${GAI_JOB_WORKING_DIR}</posix:WorkingDirectory>
+        <!--
+          This doesn't work (ticket # 23)
+          <spmd:NumberOfProcesses>${WPS_INPUT_numberOfProcesses}</spmd:NumberOfProcesses>
+        -->
+        <spmd:NumberOfProcesses>10</spmd:NumberOfProcesses>
+        <spmd:ThreadsPerProcess xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" />
+        <spmd:SPMDVariation>http://ssegrid.esa.int/jsdl-spmd/multiTasks</spmd:SPMDVariation>
+      </spmd:SPMDApplication>
+    </Application>
+    <Resources>
+      <CandidateHosts>
+        <HostName></HostName>
+      </CandidateHosts>
+      <jsdl-t2:Endpoint>globus:rsl</jsdl-t2:Endpoint>
+      <jsdl-t2:JobManager>PBS</jsdl-t2:JobManager>
+      <jsdl-t2:Queue>infinite</jsdl-t2:Queue>
+    </Resources>
+    <DataStaging>
+      <FileName>inputURLs.${GAI_TASK_ID}</FileName>
+      <Source>
+        <URI>${WPS_JOB_INPUTS_DIR}/inputURLs.${GAI_TASK_ID}</URI>
+      </Source>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/import4Grid.sh</FileName>
+      <Source>
+        <URI>${WPS_DEPLOY_PROCESS_DIR}/ImportVGT/import4Grid.sh</URI>
+      </Source>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/gridcommon.sh</FileName>
+      <Source>
+        <URI>${WPS_DEPLOY_PROCESS_DIR}/ImportVGT/gridcommon.sh</URI>
+      </Source>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/application.tgz</FileName>
+      <Source>
+        <URI>${WPS_DEPLOY_PROCESS_DIR}/ImportVGT/application.tgz</URI>
+      </Source>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/geodata.tgz</FileName>
+      <Source>
+        <URI>${WPS_DEPLOY_AUXDATA_DIR}/Geodata/geodata.tgz</URI>
+      </Source>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/exitMessage.${GAI_TASK_ID}</FileName>
+      <Target>
+        <URI>${WPS_JOB_OUTPUTS_DIR}/exitMessage.${GAI_TASK_ID}</URI>
+      </Target>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/job.${GAI_TASK_ID}.stdout</FileName>
+      <Target>
+        <URI>${WPS_JOB_AUDITS_DIR}/stdout.${GAI_TASK_ID}</URI>
+      </Target>
+    </DataStaging>
+    <DataStaging>
+      <FileName>${GAI_JOB_WORKING_DIR}/job.${GAI_TASK_ID}.stderr</FileName>
+      <Target>
+        <URI>${WPS_JOB_AUDITS_DIR}/stderr.${GAI_TASK_ID}</URI>
+      </Target>
+    </DataStaging>
+    <DataStaging>
+      <FileName>importedList.${GAI_TASK_ID}</FileName>
+      <Target>
+        <URI>${WPS_JOB_OUTPUTS_DIR}/importedList.${GAI_TASK_ID}</URI>
+      </Target>
+    </DataStaging>
+  </JobDescription>
+</JobDefinition>

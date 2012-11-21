@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ssegrid:URLList xmlns:ssegrid="http://ssegrid.esa.int/wps/JavaSAGAProfile" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.spacebel.be/wps http://schemas.spacebel.be/wps/urllist.xsd" count="8">
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0855.005.2010332163737.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0720.005.2010332162918.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0900.005.2010332193400.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0725.005.2010332162517.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0730.005.2010332162810.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0910.005.2010332193521.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101128//MOD02QKM.A2010332.0905.005.2010332193315.hdf</ssegrid:url>
+	<ssegrid:url>gsiftp://ce1.intern.vgt.vito.be:2811//EO_DATA/RESULTS_DIRS/550e8400-e29b-41d4-a716-446655440000/20101203//MOD02QKM.A2010337.0915.005.2010337193634.hdf</ssegrid:url>
+</ssegrid:URLList>

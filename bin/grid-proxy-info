@@ -1,0 +1,27 @@
+#!/bin/sh
+
+if [ -z "$JAVA_SAGA_LOCATION" ] ; then
+    export JAVA_SAGA_LOCATION="$SAGA_LOCATION"
+fi
+
+GAT_ADAPTOR_LOCATION="${JAVA_SAGA_LOCATION}"/lib/adaptors/JavaGatAdaptor/adaptors
+
+add_to_gat_classpath () {
+	DIRLIBS=${1}/*.jar
+	for i in ${DIRLIBS}
+	do
+		 # if the directory is empty, then it will return the input string
+		 # this is stupid, so case for it
+		 if [ "$i" != "${DIRLIBS}" ] ; then
+			if [ -z "$GAT_CLASSPATH" ] ; then
+		GAT_CLASSPATH=$i
+			else
+		GAT_CLASSPATH="$i":$GAT_CLASSPATH
+			fi
+		 fi
+	done
+}
+
+add_to_gat_classpath "${GAT_ADAPTOR_LOCATION}/shared"
+
+java  -classpath "${GAT_ADAPTOR_LOCATION}"/GlobusAdaptor/cog-jglobus.jar:"${GAT_CLASSPATH}" org.globus.tools.ProxyInfo "$@"

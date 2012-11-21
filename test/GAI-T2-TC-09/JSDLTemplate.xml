@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<JobDefinition  xmlns="http://schemas.ggf.org/jsdl/2005/11/jsdl" xmlns:jsdl-posix="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix" xmlns:jsdl-t2="http://www.terradue.com/schema/jsdl/jsdl-t2">
+        <JobDescription>
+
+                <JobIdentification>
+                        <JobName>VITOCAFCollectData</JobName>
+                        <Description>Data retrieval from the VITO CVB Archive Facility</Description>
+                </JobIdentification>
+
+                <Application>
+                        <ApplicationName>VITOCAFCollectData</ApplicationName>
+                        <jsdl-posix:POSIXApplication>
+                                <jsdl-posix:Executable>${GAI_JOB_WORKING_DIR}/VITOCAFCollectData4GRID.sh</jsdl-posix:Executable>
+                                <!-- First argument is the destination URL of the retrieved data -->
+                                <jsdl-posix:Argument>${WPS_INPUT_platformShortName}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_productType}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_roiTopLeftLat}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_roiTopLeftLon}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_roiBottomRightLat}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_roiBottomRightLon}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_startDate}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_stopDate}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_stopOnError}</jsdl-posix:Argument>
+                                <jsdl-posix:Argument>${WPS_INPUT_disableCache}</jsdl-posix:Argument>
+                                <!--<jsdl-posix:Argument>${WPS_INPUT_destinationURL}</jsdl-posix:Argument> -->
+                                <jsdl-posix:Environment name="LD_LIBRARY_PATH">${GAI_JOB_WORKING_DIR}/lib</jsdl-posix:Environment>
+                                <!-- sdtout/err -->
+                                <jsdl-posix:WorkingDirectory>${GAI_JOB_WORKING_DIR}</jsdl-posix:WorkingDirectory>
+                                <jsdl-posix:Output>${GAI_JOB_WORKING_DIR}/CollectData.stdout.${GAI_TASK_ID}</jsdl-posix:Output>
+                                <jsdl-posix:Error>${GAI_JOB_WORKING_DIR}/CollectData.stderr.${GAI_TASK_ID}</jsdl-posix:Error>
+                        </jsdl-posix:POSIXApplication>
+                </Application>
+
+                <Resources>
+                        <CandidateHosts>
+                                <HostName></HostName>
+                        </CandidateHosts>
+                        <jsdl-t2:Endpoint>globus:rsl</jsdl-t2:Endpoint>
+                        <jsdl-t2:JobManager>PBS</jsdl-t2:JobManager>
+                        <jsdl-t2:Queue>infinite</jsdl-t2:Queue>
+                </Resources>
+
+                <DataStaging>
+                        <!-- The gridification script to be staged at runtime -->
+                        <FileName>${GAI_JOB_WORKING_DIR}/VITOCAFCollectData4GRID.sh</FileName>
+                        <!-- At deployement, the package has been placed on the SE and is available 
+                                here -->
+                        <Source>
+                                <URI>${WPS_DEPLOY_PROCESS_DIR}/VITOCAFCollectData/VITOCAFCollectData4GRID.sh</URI>
+                        </Source>
+                </DataStaging>
+
+                <DataStaging>
+                        <!-- All the scripts, libraries and files necessary for the job to run -->
+                        <!-- are packaged in a single tar file to be staged at runtime -->
+                        <FileName>${GAI_JOB_WORKING_DIR}/Application.tgz</FileName>
+                        <!-- At deployement, the package has been placed on the SE and is available 
+                                here -->
+                        <Source>
+                                <URI>${WPS_DEPLOY_PROCESS_DIR}/VITOCAFCollectData/Application.tgz</URI>
+                        </Source>
+                </DataStaging>
+
+                <DataStaging>
+                        <FileName>${GAI_JOB_WORKING_DIR}/CollectData.stdout.${GAI_TASK_ID}</FileName>
+                        <Target>
+                                <URI>${WPS_JOB_AUDITS_DIR}/CollectData.stdout</URI>
+                        </Target>
+                </DataStaging>
+                <DataStaging>
+                        <FileName>${GAI_JOB_WORKING_DIR}/CollectData.stderr.${GAI_TASK_ID}</FileName>
+                        <Target>
+                                <URI>${WPS_JOB_AUDITS_DIR}/CollectData.stderr</URI>
+                        </Target>
+                </DataStaging>
+		<DataStaging>
+                        <FileName>${GAI_JOB_WORKING_DIR}/Application.unpack.log</FileName>
+                        <Target>
+                                <URI>${WPS_JOB_AUDITS_DIR}/Application.unpack.log</URI>
+                        </Target>
+                </DataStaging>
+		<DataStaging>
+                        <FileName>${GAI_JOB_WORKING_DIR}/queryResults</FileName>
+                        <Target>
+                                <URI>${WPS_JOB_AUDITS_DIR}/queryResults</URI>
+                        </Target>
+                </DataStaging>
+                <DataStaging>
+                        <!-- The application will create the result file with URLs of retrieved 
+                                products -->
+                        <FileName>${GAI_JOB_WORKING_DIR}/importedList</FileName>
+                        <!-- It will be staged back by job number -->
+                        <Target>
+                                <URI>${WPS_JOB_OUTPUTS_DIR}/importedList</URI>
+                        </Target>
+                </DataStaging>
+
+                <DataStaging>
+                        <!-- The application will create also a file with non-retrieved tickets/products -->
+                        <!-- here for each task -->
+                        <FileName>${GAI_JOB_WORKING_DIR}/ErrorTickets</FileName>
+                        <!-- It will be staged back by job number -->
+                        <Target>
+                                <URI>${WPS_JOB_OUTPUTS_DIR}/ErrorTickets</URI>
+                        </Target>
+                </DataStaging>
+
+		 <DataStaging>
+                        <FileName>${GAI_JOB_WORKING_DIR}/exitMessage</FileName>
+                        <Target>
+                                <URI>${WPS_JOB_OUTPUTS_DIR}/exitMessage</URI>
+                        </Target>
+                </DataStaging>
+
+        </JobDescription>
+</JobDefinition>

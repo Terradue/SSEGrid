@@ -1,0 +1,767 @@
+#!/bin/env bash
+# Project: findthenfetch
+# Outline: findthenfetch is a generic utility to perform URL downloads to a sink directory.
+#          the supported url schemes are ftp, scp, http, https, gridftp, file and nfs
+#          when available in compressed form or packaged in an archive, the files/directories
+#          are automatically decompressed/unpackaged to the sink name.
+#          the following archive formats are recognised:
+#          .gz, .tgz, .tar.gz, .Z, tar.Z, .bz, .bz2, .tbz, .tar.bz, .tar.bz2, .zip, .tar
+#          it is considered .zip or .tar files (including .tgz, tar.Z, etc) contain a list of files
+#          whereas .gz, .Z, .bz and .bz2 contain a single file
+#
+#          in addition files can be virtually archived into .uar text files containing a list of
+#          URLs (one per line) to associate to the logical filename of the file.
+#
+# Dependencies: requires function watchdog (bash_debug.sh)
+#
+# Change log:
+# version 1.0
+#       * first release
+# version 1.1
+#       * add the -f option to force a local copy of the file in case of nfs driver
+#       * add the handling of the new return message of gridftp server "No such file or directory"
+# version 1.2
+#       * corrected mkdir with -p flag when creating output directory
+# version 1.3
+#       * changed the -R flag semantic for the opposite to retry on timeout by default
+#
+# version 2.0 2008-05-17
+#       * added support for scp and for http, https and ftp via wget
+#       * improved error handling in particular for nfs and gridftp drivers
+#       * improved message logging to stderr
+#       * use of logApp function to log messages if available, unless LOG_FUNCTION variable is defined
+#       * add -q (quiet) option to suppress echo of local filenames to stdout
+#       * add -O option to force file or directory overrides in output directory (default is to not override)
+#       * add -w (work directory) option to specify working directory (defaulting to /tmp)
+#       * add watchdog for findthenfetch hangs in particular for gridftp or wget transfers (-t and -R options)
+#       * add unpacking support for .tar, .tgz, .tar.gz, .Z, tar.Z, .bz, .bz2, .tbz, .tar.bz, .tar.bz2, .zip
+#       * add support for uar (url archive) type unpacking
+#       * add -c -p and -b options 
+#       * add -z option
+# version 2.1 2008-07-16 by manu
+#       * removed -fast option
+# version 2.2
+#       * corrected mkdir with -p flag when creating the tmp input file directory
+#       * added the gsiftp driver (same of gridftp)
+#       * added the cache driver
+# version 2.3
+#       * added https driver with curl (for gridsite support)
+#       * removed http driver with GET (outdated)
+#       * modified usage
+#       * removed ams driver (outdated)
+
+SECP_VERSION=2.3
+
+# Usage:
+function usage {
+cat <<:usage
+findthenfetch version $SECP_VERSION
+Usage:
+findthenfetch  [-h] [-a] [-q] [-f] [-b <url-base>] [-d <driver-def>] 
+      [-o|O <sink-dir>] [-w <work-dir>] [-c] [-p <prefix>] [-z|-Z]
+      [-r <num-retries>] [-t <timeout>] [-R] [-l <log-label>] [-D]
+      <url1> [<url2> ... <urlN>]
+
+URL Parameters:
+      Arguments are URL strings provided by seurl
+      if a parameter is specified as '-', URLs are read and inserted from standard input
+ 
+Options:
+      -h               displays this help page
+      -a               abort on first error without attempting to process further URLs
+      -q               quiet mode, local filenames are not echoed to stdout after transfer
+      -f               force transfer of a physical copy of the file in case of nfs URLs
+      -b <url-base>    use <url-base> as url base for relative URLs (URLs as a simple file path)
+      -d <driver-file> get additional drivers from shell file <driver-file>
+      -o|O <out-dir>   defines the output directory for transfers (default is $PWD)
+                       with -O the sink files or directories possibly existing in the output
+                       directory will be overriden
+      -c               creates the output directory if it does not exist
+      -p <prefix>      prepend the given prefix to all output names
+      -z               provide output as a compressed package (.gz for files or .tgz for folders)
+      -Z               idem above while adding a root folder in tgz archive structures with same name
+      -w <work-dir>    define working dir for transfers (default is /tmp)
+      -r <num-retries> defines the maximum number of retries (default is 10)
+      -t <timeout>     defines the timer (in minutes) for the watchdog timeout applicable to
+                       gridftp, scp, ftp, http, and https schemes
+      -R               do not retry transfer after timeout
+      -l <log-label>   prepend the given label to the log messages
+      -D               set debug mode for command output parsing debugging
+
+Output:
+      unless the quiet option is used (-q), the local path of each file (or directory) 
+      downloaded after each URL transfer is echoed, one per line
+
+Log messages:
+      log messages (progress and error) are printed to standard error.
+      LOG_FUNCTION can be used to define the name of a function or executable to be invoked for logging
+      as $LOG_FUNCTION <message-type> <message-text>
+
+Exit codes:
+      0      all URLs were successfully downloaded
+      1      an error occured during processing
+      255    environment is invalid (e.g. invalid working directory) or invalid options are provided
+      254    output directory does not exist or failed creating it (with -c option)
+      253    the provided output prefix is invalid (it contains slash characters)
+
+      if the -a option is used, the exit code is set to the error code of the last URL transfer:
+      252    no driver available for URL
+      251    an existing file or directory conflicts with the sink for the URL in the output directory
+      250    an error occured while unpacking the output file or when packaging/compressing the output
+             file (when -z or -Z option is used)
+      128    a timeout occured while fetching an url
+      127    a fatal error occured, source of error is not known or not handled by driver
+      <128  error codes specific to the transfer scheme
+
+:usage
+}
+
+error_env=255
+error_outdir=254
+error_outprefix=253
+error_nodriver=252
+error_sink_exists=251
+error_unpacking=250
+error_packaging=250
+error_timeout=128
+error_fatal_unknown=127
+
+###############################################################################
+#                          Drivers                                            #
+###############################################################################
+# calling sequence:
+# driver <url> <sink-path>
+#
+# output variables:
+# message = result string
+# wtime = wait time
+#
+# output status conventions:
+# 0       : operation successfull
+# 1       : file does not exist, may try to fecth the gzipped version
+# < 128   : error during operation but worth retry
+# >= 128  : fatal error during operation, code will be translated as (256 - code)
+# 128     : a timeout occured
+# 129     : generic error code for unhandled fatal errors (or -127)
+###############################################################################
+
+# generic wrapper for xcmd calls that defines the generic options and triggers xcmd with customised needs.
+# a null argument splits between the additional options and the command
+function xcmdWrapper() {
+
+        declare -a opts=()
+        while [ -n "$1" ]; do opts=("${opts[@]}" "$1"); shift; done
+        shift
+        [ "$1" == watchdog ] && shift && set - watchdog -t $timeout -w $error_timeout "$@"
+
+        message=`
+        xcmd -v DEBUG=$debug -v error_default=$error_fatal_unknown \
+             -v timeout=$timeout -v error_timeout=$error_timeout \
+             -f 'DEBUG==1 {debug()}' \
+             -F '/command not found/ {error(); res=$0; xstatus(-error_default)}' \
+             "${opts[@]}" \
+             -C 'if(xstatus()==error_timeout) res="killed by watchdog"' \
+             -C 'if(xstatus()&&(res=="")) {res=cmd()" returned "cstatus();xstatus(-error_default)}' \
+             -C 'copy(res)' \
+             "$@"
+        `
+        return $?
+}
+
+function fileDriver ()
+{
+        declare url="$1"
+        [ "${url:0:1}" == "/" ] || url="$PWD/$url"
+
+        ! [ -f "$url" -o -d "$url" ] && message="no such file or directory" && return 1
+
+        declare -a cmd=()
+        if $physical_file && [ $ext_ptr -eq 0 ] ; then
+                cmd=(cp -RL "$url" "$2")
+        else
+                cmd=(ln -s "$url" "$2")
+#               cmd=(eval 'for((i=0;i<4;i++));do echo not responding >&2;done; wait 1;')
+        fi
+
+        wtime=60
+        xcmdWrapper -I \
+             -F '/[Nn]o such file/ { res=$0;quit(1) }' \
+             -f '/[Nn]ot responding/ { res=$0;xstatus(2)}' \
+             '' "${cmd[@]}" && return 0
+
+        declare -i status=$?
+        rm -rf "$2" 2>/dev/null
+        return $status
+
+}
+
+function scpDriver ()
+{
+        declare scp_source="${1/\//:\/}"
+
+        xcmdWrapper -I \
+             -F '/[nN]o such file/ { res="No such file or directory";quit(1) }' \
+             -F '/[nN]ame or service not known/ { error();res=$0;quit(2) }' \
+             -F '/[Hh]ost key verification failed/ { error();res=$0;xstatus(3) }' \
+             -F '/[pP]ermission denied .*(publickey|password)/ { error();res="authentication error";quit(-4) }' \
+             '' watchdog scp -B -r "$scp_source" "$2"
+        return $?
+
+}
+
+function gridftpDriver()
+{
+        declare outurl="$2"
+        [ -z "${outurl/*\/*}" ] && [ ${outurl:0:1} != "/" ] && outurl="$PWD/${outurl#./}"
+
+        wtime=60
+        xcmdWrapper -I \
+             -z '/^debug:/' \
+             -f '/not a plain file/ { res=$0;quit(1) }' \
+             -f '0 && /globus_ftp_client: the server responded with an error/ && ! xstatus() { res=$0;quit(1) }' \
+             -f '/[Nn]o such file or directory/ { res=$0;quit(1) }' \
+             -f '/Connection timed out/ { res=$0;error();quit(2) }' \
+             -f '/No route to host/ { res=$0;error();quit(3) }' \
+             -f '/Connection refused/ { res=$0;error();quit(4) }' \
+             -f '/globus_xio: Unable to connect/ { res=$0;error();quit(5) }' \
+             -F '/gss_init_sec_context failed|Authentication Error/ { res="gridftp credential invalid or undefined";error(); xstatus(-6) }' \
+             -f '/The proxy credential:/ { while(getline line) {if(line=="") break; gsub(/^  */," ",line);$0=$0 line } }' \
+             -f '/Permission denied/ { res=$0; error();quit(-7)}' \
+             -z '/Unable to open file/' \
+             -F '/^Attempt [0-9]/ { info() }' \
+             -F '/[Ee]rror|ERROR/ { warn() }' \
+             -F '/globus_credential:/ { info() }' \
+             -z '$0 !~ /globus_xio/' \
+             '' watchdog globus-url-copy -dbg -b -r "gsiftp://$1" "file://$outurl"
+        return $?
+}
+
+function cacheDriver()
+{
+        declare outurl="$2"
+        [ -z "${outurl/*\/*}" ] && [ ${outurl:0:1} != "/" ] && outurl="$PWD/${outurl#./}"
+
+        xcmdWrapper -I \
+             -z '/^debug:/' \
+             -f '/not a plain file/ { res=$0;quit(1) }' \
+             -f '0 && /globus_ftp_client: the server responded with an error/ && ! xstatus() { res=$0;quit(1) }' \
+             -f '/[Nn]o such file or directory/ { res=$0;quit(1) }' \
+             -f '/Connection timed out/ { res=$0;error();quit(2) }' \
+             -f '/No route to host/ { res=$0;error();quit(3) }' \
+             -f '/Connection refused/ { res=$0;error();quit(4) }' \
+             -f '/globus_xio: Unable to connect/ { res=$0;error();quit(5) }' \
+             -F '/gss_init_sec_context failed|Authentication Error/ { res="gridftp credential invalid or undefined";error(); xstatus(-6) }' \
+             -f '/The proxy credential:/ { while(getline line) {if(line=="") break; gsub(/^  */," ",line);$0=$0 line } }' \
+             -f '/Permission denied/ { res=$0; error();quit(-7)}' \
+             -z '/Unable to open file/' \
+             -F '/*Attempt [0-9]/ { info() }' \
+             -F '/[Ee]rror|ERROR/ { warn() }' \
+             '' grid-cache-client "cache://$1" "file://$outurl"
+        return $?
+}
+
+function gsiftpDriver()
+{
+        gridftpDriver $@
+}
+
+function httpDriverWGET ()
+{
+        wtime=60
+        xcmdWrapper -bI \
+             -f '{gsub(/[[:cntrl:]]*/,"")}' \
+             -f '/ ==> LIST / { inlist=1 }' \
+             -F '/^Removed .*\.listing/ {inlist=0}' \
+             -z 'inlist==1' \
+             -z '/^--/' \
+             -z '/ => /' \
+             -z '/^==> /' \
+             -z '/^unlink:/' \
+             -z '/^[Dd]ownloaded|^FINISHED|^[ \t]*$/' \
+             -z '/awaiting response/' \
+             -f '/ saved [[0-9\/]*]$/ {sub(/^[^(]*\(/,"throughput ");sub(/\) - .* saved /," - downloaded ");xstatus(0)}' \
+             -F '/404 Not Found|[Nn]o such file|ERROR 404:/ { res="file not found"; quit(1)}' \
+             -f '/[Nn]o such directory/ { res=$0; xstatus(4)}' \
+             -f '/^Resolving .*\.\.\. failed/ { res=$0; xstatus(2)}' \
+             -z '/^Resolving .*[0-9]$/' \
+             -f '/^Connecting to .*failed/ { res=$0;xstatus(3)}' \
+             -z '/^Connecting to /' \
+             -z '/^Logging in as .* Logged in/' \
+             -f '/[Ll]ogin incorrect/ { res=$0; xstatus(-4)}' \
+             -f '/[Nn]o such directory/ { res=$0; xstatus(-5)}' \
+             -F '/^ *[0-9][0-9]*K .*100%/ {info()}' \
+             -f '/^ *[0-9][0-9]*K/ {if(!tsampling("1min",60)){next}}' \
+             -f '/already there/ { res=$0; xstatus(-6)}' \
+             -f 'res=="" {res=$0}' \
+             '' watchdog wget -nc -r -P "$wdir/wget_tmp" "$scheme://$1" || return $?
+
+        # mv back the result file or directory
+        message=`mv "$wdir/wget_tmp/${1#*@}" "$2" 2>&1`
+        declare -i status=$?
+
+        if [ $status -ne 0 ] ; then
+                logsecp "ERROR" "failed transfering package to output - $res"
+                return 130
+        fi
+        return 0
+}
+
+function httpsDriver {
+  curlopt="--fail --capath /etc/grid-security/certificates/ --retry $retries -s -S"
+  [[ -n "$X509_USER_PROXY" ]] && curlopt="$curlopt --cert $X509_USER_PROXY --key $X509_USER_PROXY"
+  curl $curlopt --fail $scheme://$1 -o $2
+  res=$?
+  if [[ "$res" -ne "0" ]]; then
+    logsecp "ERROR" "failed transfering package to output - $res"
+    rm -f $2
+    return $res
+  fi
+  return 0
+}
+
+function httpDriver { httpDriverWGET "$@"; }
+function ftpDriver { httpDriverWGET "$@"; }
+function nfsDriver { fileDriver "$@"; }
+
+declare -a secp_opts
+function inherit_options {
+        [ ${#secp_opts[@]} -gt 0 ] && return 0
+
+        secp_opts=( -r $retries -t $(($timeout/60)) -w $wdir )
+        declare -i count=${#secp_opts[@]}
+
+        $physical_file && secp_opts[$count]=-f && count=$(( $count + 1 ))
+        $timeout_noretry && secp_opts[$count]=-R && count=$(( $count + 1 ))
+        [ $debug -gt 0 ] && secp_opts[$count]=-D && count=$(( $count + 1 ))
+        if $override ; then
+                secp_opts[$count]=-O
+        else
+                secp_opts[$count]=-o
+        fi
+        count=$(( $count + 1 ))
+}
+export -f inherit_options
+
+###############################################################################
+
+function check_clear_sink {
+#       log_context="output"
+        if [ -e "$outpath" ]; then
+                if $override; then
+                        logsecp "WARNING" "clearing existing sink '$outpath'"
+                        rm -rf "$outpath"
+                else
+                        message="sink '$outpath' already exists" 
+                        status=$error_sink_exists
+                        return 1
+                fi
+        fi
+        return 0
+}
+
+function getUrl ()
+{
+        # $1 is the url
+        declare url="$1"
+
+        #inherit the global number of retries since it may change
+        declare -i retries=$retries
+        declare -i retry_count=1
+
+        declare -i status=0
+
+        declare message=""
+        declare -i wtime=10
+
+        declare scheme="${url%://*}"
+
+        if [ "$scheme" == "$url" ]; then
+                # it is a relative url
+                scheme="${url_base%://*}"
+                url="$url_base$url"
+        fi
+
+        declare driver="${url%://*}Driver"
+        declare urlpath="${url#*://}"
+
+        declare urlname=`basename "$urlpath"`
+        declare outname="$outprefix$urlname"
+        declare outpath="$outdir/$outname"
+        declare sinkpath="$outpath"
+
+        declare url_no_id=`echo "$url" | gawk '{gsub(/\:[^/]*@/,":*password*@");print}'`
+        log_context=starting; logsecp "INFO" "url '$url_no_id' > local '$outdir/$outprefix'"
+        log_context="get:$scheme"
+
+        if [ "`type -t "$driver"`" != "function" ]; then
+                message="no driver available for scheme '$scheme'"
+                status=$error_nodriver
+        elif $compress_it; then
+                sinkpath="$wdir/secp_tmp.file"
+        else
+                check_clear_sink
+        fi
+
+        declare fpath="$urlpath"
+
+        declare -a ext_list=( .uar .tar .gz .tgz .tar.gz .Z .tar.Z .bz .bz2 .tbz .tar.bz .tar.bz2 .zip )
+        declare -i ext_ptr=0
+
+        while [ $status -eq 0 ] ; do
+
+                rm -rf "$wdir/"* 2>/dev/null
+
+                $driver "$fpath" "$sinkpath"
+                status=$?
+
+                [ $status -eq 0 ] && break
+                [ -z "$message" ] && message="$driver: unknown error"
+
+                if [ $status -ge 128 ]; then
+                        status=$(( 256 - $status ))
+                        if $timeout_noretry || [ -n "${message/*killed by watchdog*/}" ] || [ $status -ne $error_timeout ]; then break; fi
+                elif [ $status -eq 1 ]; then
+                        [ $ext_ptr -ge ${#ext_list[@]} ] && break
+                        status=0
+                        fpath="${urlpath}${ext_list[$ext_ptr]}"
+                        sinkpath="$wdir/secp_tmp${ext_list[$ext_ptr]}"
+                        ext_ptr=$(( $ext_ptr + 1 ))
+                        continue
+                fi
+                [ $retry_count -ge $retries ] && break
+                logsecp "ERROR" "error($status) - $message"
+                retry_count=$(( $retry_count + 1 ))
+                logsecp "INFO" "retrying $retry_count/$retries sleeping $wtime seconds"
+                sleep $wtime
+                status=0
+        done
+
+
+        # create a dummy loop to fruit break 
+
+        while [ $status -eq 0 ]; do
+
+                # verify there is something as expected
+                if [ ! -e "$sinkpath" ] ; then
+                        logsecp "ERROR" "driver reported success but sink '$sinkpath' is not found"
+                        message="$scheme driver internal error"
+                        status=$error_fatal_unknown
+                        break
+                fi
+
+                declare ext=
+                [ $ext_ptr -gt 0 ] && ext="${ext_list[$ext_ptr-1]}"
+
+                declare fetched_file="$sinkpath"
+
+                if $compress_it; then
+
+                        declare sink_ext=;
+                        case "$ext" in
+                        '')
+                                if [ -d "$sinkpath" ]; then sink_ext=.tgz; else sink_ext=.gz; fi
+                                sinkpath="$fetched_file"
+                        ;;
+                        .uar|.tar|.tgz|.tar.gz|.tar.Z|.tbz|.tar.bz|.tar.bz2|.zip)
+                                sink_ext=.tgz
+                                sinkpath="$wdir/$urlname"
+                        ;;
+                        .gz|.Z|.bz)
+                                sink_ext=.gz
+                                sinkpath="$wdir/$urlname"
+                        ;;
+                        esac 
+
+                        outpath="$outpath$sink_ext"
+                        check_clear_sink || break
+
+
+                        # end it there if fetched already in compressed form
+                        if [ "$sink_ext" == "$ext" ] || ( [ "$sink_ext" == ".tgz" ] && [ "$ext" == ".tar.gz" ] ); then
+
+                                # in case of a tgz, check that we have the right structure
+                                declare contents=
+                                [ "$sink_ext" == ".tgz" ] && contents=`xcmd -E tar tfz "$fetched_file" --exclude "$urlname"`
+                                if [ "$sink_ext" != ".tgz" ] || ( [ -n "$contents" ] && ! $tgz_root ) || ( [ -z "$contents" ] && $tgz_root ); then
+                                        log_context="pack:${sink_ext:1}"
+                                        logsecp "INFO" "got url already packaged as required '$urlname$ext'"
+                                        mv "$fetched_file" "$outpath"
+                                        break
+                                fi
+                        fi
+
+                elif [ -z "$ext" ]; then
+                        break
+                else
+                        sinkpath="$outpath"
+                fi
+
+
+                log_context="unpack:${ext:1}"
+                if [ "$ext" == ".uar" ]; then
+                        logsecp "INFO" "got url archive file '$urlname$ext' - fetching elements"
+                        inherit_options
+                        cat "$fetched_file" | "$0" -l "$log_label+ " -q -c -a -b "${url%/*}/" "${secp_opts[@]}" "$sinkpath" -
+                        status=$?
+                        if [ $status -ne 0 ]; then
+                                logsecp "ERROR" "url archive unpacking command failed with code $status"
+                                message="error $status (see above)"
+                                status=$error_unpacking
+                                break
+                        fi
+                elif [ -n "$ext" ]; then
+                        logsecp "INFO" "got url as '$urlname$ext' - unpacking"
+                        cmd=
+                        case "$ext" in
+                        .tar)
+                           cmd='mkdir -p "$sinkpath" && tar xCf "$sinkpath" "$fetched_file"'
+                           ;;
+                        .gz)
+                           cmd='gunzip -fc "$fetched_file" >"$sinkpath"'
+                           ;;
+                        .tgz|.tar.gz)
+                           cmd='mkdir -p "$sinkpath" && tar xCfz "$sinkpath" "$fetched_file"'
+                           ;;
+                        .Z)
+                           cmd='zcat -c "$fetched_file" >"$sinkpath"'
+                           ;;
+                        .tar.Z)
+                           cmd='mkdir -p "$sinkpath" && tar xCfZ "$sinkpath" "$fetched_file"'
+                           ;;
+                        .bz)
+                           cmd='bzcat -c "$fetched_file" >"$sinkpath"'
+                           ;;
+                        .bz2)
+                           cmd='bzcat -c "$fetched_file" >"$sinkpath"'
+                           ;;
+                        .tbz|.tar.bz|.tar.bz2)
+                           cmd='mkdir -p "$sinkpath" && tar xCfj "$sinkpath" "$fetched_file"'
+                           ;;
+                        .zip)
+                           cmd='mkdir -p "$sinkpath" && unzip -q -d "$sinkpath" "$fetched_file"'
+                           ;;
+                        esac 
+
+                        xcmd -E eval "$cmd" >/dev/null
+                        status=$?
+                        if [ $status -ne 0 ]; then
+                                logsecp "ERROR" "unpacking command failed with code $status"
+                                message="unpacking error"
+                                status=$error_unpacking
+                                break
+                        fi
+
+                        # check whether archive contains a one folfer structure with the url basename as root
+                        # in case, remove the redundant folder
+                        if [ -d "$sinkpath" ]; then
+                                declare contents=`\ls -1 "$sinkpath/"`
+                                if [ "$contents" == "$urlname" ]; then
+                                        logsecp "WARNING" "removing redundant root folder '$contents' in archive"
+                                        mv "$sinkpath/$contents" "$sinkpath.tmp"
+                                        rm -rf "$sinkpath"
+                                        mv "$sinkpath.tmp" "$sinkpath"
+                                fi
+                        fi
+
+                fi
+                [ -z "$ext" ] || rm -f "$fetched_file" 2>/dev/null
+
+                if $compress_it ; then
+
+                        log_context="pack:${sink_ext:1}"
+                        logsecp "INFO" "packaging output to '$outpath'"
+                        if [ "$sink_ext" == ".tgz" ]; then
+                                if $tgz_root; then
+                                        xcmd -E tar cCfhz "$sinkpath/.." "$outpath" "$urlname"
+                                else
+                                        (cd "$sinkpath"; find -mindepth 1 -maxdepth 1 ) | xcmd -E tar cCfhzT "$sinkpath" "$outpath" -
+                                fi
+                        else
+                                xcmd -E gzip -c "$sinkpath" > "$outpath"
+                        fi
+                        status=$?
+                        if [ $status -ne 0 ]; then
+                                logsecp "ERROR" "output compression command failed with code $status"
+                                message="compression error"
+                                status=$error_packaging
+                                break
+                        fi
+                fi
+                break
+        done
+
+        if [ $status -eq 0 ]; then
+                log_context=success
+                logsecp "INFO" "url '$url_no_id' > local '$outpath'"
+                $quiet || echo "$outpath" 
+        else
+                log_context=failed
+                rm -rf "$outpath" 2>/dev/null
+                logsecp "ERROR" "error $status fetching url '$url_no_id' - $message"
+        fi
+
+        return $status
+}
+
+
+if [ -z "$LOG_FUNCTION" ] ; then
+
+        function logmsg { printf '[%-7s] %s\n' "$1" "$2" >&2; }
+        export -f logmsg
+
+        LOG_FUNCTION=logmsg
+
+        # override to logApp if defined
+        [ "`type -t "logApp"`" == "function" ] && LOG_FUNCTION=logApp
+fi
+export LOG_FUNCTION
+
+
+declare log_label=
+declare log_context=
+declare -i url_count=1
+export log_label log_context url_count
+function logsecp {
+        declare message=
+        if [ -n "$log_context" ]; then
+                message=`printf '%findthenfetch%-4s%-15s %s' "$log_label" "($url_count)" "[$log_context]" "$2"`
+        else
+                message=`printf '%findthenfetch: %s' "$log_label" "$2"`
+        fi
+        $LOG_FUNCTION "$1" "$message"
+}
+export -f logsecp
+
+# define BASHD_LOG as a wrapper to logsecp
+BASHD_LOG=logsecp
+
+
+BD="`which bash_debug.sh 2>/dev/null`"
+[ -z "$BD" ] && {
+        echo "ERROR! No bash_debug found! please check bash_debug.sh is available in the PATH and then retry"
+        exit $error_env
+}
+. bash_debug.sh ""
+
+# check that watchdog is defined
+[ "`type -t "watchdog"`" != "function" ] \
+&& logsecp ERROR "'watchdog' function is undefined, please source bash_debug.sh" \
+&& exit $error_env
+
+
+if [ $# -eq 0 ]; then
+        logsecp ERROR "missing arguments"
+        usage
+        exit 1
+fi
+
+declare retries=10
+declare wdir="/tmp"
+declare outdir="$PWD"
+declare create_outdir=false
+declare outprefix=
+declare override=false
+declare abort=false
+declare quiet=false
+declare physical_file=false
+declare -i timeout=60
+declare timeout_noretry=false
+declare url_base=
+declare -i debug=0
+declare compress_it=false
+declare tgz_root=false
+
+unset OPTIND
+
+declare opt=
+while getopts ":hafqcRd:r:o:O:p:w:t:b:l:DzZ" opt; do
+case $opt in
+h) usage; exit 0;;
+r) retries="$OPTARG";;
+o) outdir="$OPTARG";;
+O) outdir="$OPTARG"; override=true;;
+c) create_outdir=true;;
+p) outprefix="$OPTARG";;
+w) wdir="$OPTARG";;
+d) . "$OPTARG";;
+a) abort=true;;
+q) quiet=true;;
+f) physical_file=true;;
+t) timeout=$OPTARG;;
+R) timeout_noretry=true;;
+b) url_base="$OPTARG";;
+l) log_label="$OPTARG";;
+D) debug=1;;
+z) compress_it=true;;
+Z) compress_it=true;tgz_root=true;;
+'?' | ':') logsecp ERROR "option '$OPTARG' is invalid" && exit $error_env;;
+esac
+done
+
+#set timeout in minutes
+timeout=$(( timeout*60 ))
+
+
+shift $(($OPTIND - 1))
+
+[ ! -d "$wdir/" ] && logsecp ERROR "the specified working directory '$wdir' is invalid" \
+&& exit $error_env
+
+outdir="${outdir%/}"
+
+if [ ! -d "$outdir/" ]; then
+        ! $create_outdir && logsecp ERROR "the output directory '$outdir' does not exist" \
+        && exit $error_outdir
+
+        xcmd -E mkdir -p "$outdir/" || exit $error_outdir
+fi
+
+if [ -n "$outprefix" ] && [ -z "${outprefix/*\/*/}" ]; then
+        logsecp ERROR "the output prefix '$outprefix' is invalid" \
+        && exit $error_outprefix
+fi
+
+# assume file url when no base is defined or when it is defined without explicit scheme
+[ "${url_base%://*}" == "$url_base" ] && url_base="file://$url_base"
+
+function cleanup {
+        declare -i status=$?
+        [ -d "$wdir" ] && rm -rf "$wdir" 2>/dev/null
+        exit $status
+}
+
+trap cleanup EXIT
+
+wdir="$wdir/secp_tmp$(date +%s)$$"
+xcmd -E mkdir -p "$wdir" || exit $error_env
+
+function terminate {
+        log_context=abort
+        logsecp WARNING "termination signal received, aborting"
+        smartkill -vc -p 0 -g 3:4 $$
+        log_context=
+        logsecp ERROR "aborted!"
+}
+trap 'terminate; exit 255;' HUP TERM 
+trap 'cleanup' INT
+
+
+for url in "$@"; do
+        [ "$url" == "-" ] && ( cat | grep -v '^#' ) && continue
+        echo "$url"
+done | (
+        status=0
+        url_count=1
+        while read url; do
+                getUrl "$url" 
+                res=$?
+                if [ $res -ne 0 ]; then
+                        $abort && exit $res
+                        status=1
+                fi
+                url_count=$((url_count+1))
+        done
+        exit $status
+) & >/dev/null 2>&1
+wait $! 2>/dev/null
+exit $?

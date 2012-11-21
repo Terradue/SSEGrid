@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- * * preparation processing template JSDL. * * -->
+<jsdl:JobDefinition xmlns:jsdl="http://schemas.ggf.org/jsdl/2005/11/jsdl"
+	xmlns:jsdl-spmd="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+	xmlns:jsdl-t2="http://www.terradue.com/schema/jsdl/jsdl-t2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.ggf.org/jsdl/2005/11/jsdl http://schemas.ggf.org/jsdl/2005/11/jsdl">
+	<jsdl:JobDescription>
+		<jsdl:JobIdentification>
+			<jsdl:JobName>preparation</jsdl:JobName>
+			<!-- Some Description -->
+			<jsdl:Description>preparation Job</jsdl:Description>
+		</jsdl:JobIdentification>
+		<!-- This section describes the application following the SPMD extension -->
+		<jsdl:Application>
+			<jsdl:ApplicationName>preparation Job</jsdl:ApplicationName>
+			<jsdl-posix:POSIXApplication
+				xmlns:jsdl-posix="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix"
+				xsi:schemaLocation="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<jsdl-posix:Executable>/bin/sh</jsdl-posix:Executable>
+				<jsdl-posix:Argument>GAI_prepProc4GRID.sh</jsdl-posix:Argument>
+				<jsdl-posix:Environment name="GAI_VERSION">1.0
+				</jsdl-posix:Environment>
+				<!-- <jsdl-posix:WorkingDirectory>${GAI_JOB_WORKING_DIR} -->
+				<!-- </jsdl-posix:WorkingDirectory> -->
+				<jsdl-posix:Output>prep.out</jsdl-posix:Output>
+				<jsdl-posix:Error>prep.err</jsdl-posix:Error>
+			</jsdl-posix:POSIXApplication>
+		</jsdl:Application>
+		<!-- <jsdl:DataStaging> -->
+		<!-- <jsdl:FileName>GAI_utils.tgz</jsdl:FileName> -->
+		<!-- <jsdl:Source> -->
+		<!-- <jsdl:URI>${GAI_CLIENT_HOME}/libexec/GAI_utils.tgz</jsdl:URI> -->
+		<!-- </jsdl:Source> -->
+		<!-- </jsdl:DataStaging> -->
+		<jsdl:DataStaging>
+			<jsdl:FileName>GAI_prepProc4GRID.sh</jsdl:FileName>
+			<jsdl:Source>
+				<jsdl:URI>${GAI_CLIENT_HOME}/libexec/prepProc4GRID.sh</jsdl:URI>
+			</jsdl:Source>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<jsdl:FileName>prep.out</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${GAI_CLIENT_HOME}/var/log/${GAI_JOB_UID}.prep.out</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<jsdl:FileName>prep.err</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${GAI_CLIENT_HOME}/var/log/${GAI_JOB_UID}.prep.err</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+	</jsdl:JobDescription>
+</jsdl:JobDefinition>

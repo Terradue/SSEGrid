@@ -1,0 +1,10 @@
+WPS_INPUT_platformShortName SPOT9
+WPS_INPUT_productType FreeP
+WPS_INPUT_roiTopLeftLat 72
+WPS_INPUT_roiTopLeftLon -15
+WPS_INPUT_roiBottomRightLat 22
+WPS_INPUT_roiBottomRightLon 70
+WPS_INPUT_stopOnError true
+WPS_INPUT_startDate 01/05/2010 00:00:00
+WPS_INPUT_stopDate 10/05/2010 23:59:59
+WPS_INPUT_disableCache false

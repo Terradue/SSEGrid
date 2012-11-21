@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- All starts with a domain -->
+<glue:Domains CreationTime="2001-12-31T12:00:00" Validity="0"
+	xmlns:glue="http://schemas.ogf.org/glue/2008/05/spec_2.0_d42_r01"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.ogf.org/glue/2008/05/spec_2.0_d42_r01 ../../etc/glue2.xsd ">
+	<!-- Here we use only the AdminDomain to specify the resources -->
+	<AdminDomain BaseType="Domain">
+		<ID>terradue.com</ID>
+		<Name>GRID T2</Name>
+		<WWW>http://www.terradue.com</WWW>
+		<Services>
+			<!-- Computing element definition -->
+			<ComputingService BaseType="Service">
+				<ID>ify-ce01.terradue.com</ID>
+				<Name>CE1</Name>
+				<ComputingEndpoint BaseType="Endpoint">
+					<ID>GT4</ID>
+					<Name>Globus Job Manager on CE1</Name>
+					<URL>https://ify-ce01.terradue.com:8443/wsrf/Services/ManagedJobFactoryService</URL>
+					<Capability>executionmanagement.jobmanager</Capability>
+					<JobDescription>globus:rsl</JobDescription>
+				</ComputingEndpoint>
+				<ComputingManager BaseType="Manager">
+					<ID>PBS</ID>
+					<Name>Portable Batch System on CE1</Name>
+					<OtherInfo>PBS</OtherInfo>
+					<TotalLogicalCPUs>20</TotalLogicalCPUs>
+					<TmpDir>/tmp</TmpDir>
+					<ExecutionEnvironment BaseType="Resource">
+						<OSFamily>linux</OSFamily>
+						<Platform>i386</Platform>
+					</ExecutionEnvironment>
+				</ComputingManager>
+				<ComputingShares>
+					<ComputingShare BaseType="Share">
+						<LocalID>ify-ce01.terradue.com/PBS/infinite</LocalID>
+						<MappingQueue>infinite</MappingQueue>
+					</ComputingShare>
+				</ComputingShares>
+				<ToStorageService>
+					<LocalID>ify-ce01.terradue.com/EO_DATA/WDIR</LocalID>
+					<LocalPath>/EO_DATA/WDIR</LocalPath>
+					<RemotePath>/EO_DATA/WDIRS</RemotePath>
+					<Associations>
+						<ComputingServiceID>ify-ce01.terradue.com</ComputingServiceID>
+						<StorageServiceID>storage.terradue.com</StorageServiceID>
+					</Associations>
+					<Extensions><Extension Key="GAIVar">GAI_ROOT_WORKING_DIR</Extension>
+					</Extensions>
+				</ToStorageService>
+				<ToStorageService>
+					<LocalID>ify-ce01.terradue.com/EO_DATA/RDIR</LocalID>
+					<LocalPath>/EO_DATA/RDIR</LocalPath>
+					<RemotePath>/EO_DATA/RDIR</RemotePath>
+					<Associations>
+						<ComputingServiceID>ify-ce01.terradue.com</ComputingServiceID>
+						<StorageServiceID>storage.terradue.com</StorageServiceID>
+					</Associations>
+					<Extensions><Extension Key="GAIVar">GAI_ROOT_RESULTS_DIR</Extension>
+					</Extensions>
+				</ToStorageService>
+			</ComputingService>
+			<StorageService BaseType="Service">
+				<ID>storage.terradue.com</ID>
+				<Name>EVA storage</Name>
+				<StorageAccessProtocol>
+					<LocalID>nfs://storage.terradue.com</LocalID>
+					<Type>nfs</Type>
+				</StorageAccessProtocol>
+				<StorageShares>
+					<StorageShare BaseType="Share">
+						<LocalID>storage.terradue.com//EO_DATA</LocalID>
+						<Path>/EO_DATA</Path>
+					</StorageShare>
+				</StorageShares>
+			</StorageService>
+		</Services>
+		<Associations />
+	</AdminDomain>
+</glue:Domains>
+

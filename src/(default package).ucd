@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<editmodel:ClassDiagramEditModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:editmodel="editmodel.xmi" xmlns:options="options.xmi" name="(default package)" size="867,1609" id="" metadata="uml2-1.0" initialized="true" zoom="0.5" tag="1000" key="32303037303533312D31303030205341474134535345477269642F656D6174686F74">
+  <children xsi:type="editmodel:PackageEditModel" name="com.terradue.ogf.schema.jsdl.impl" location="508,314" size="248,215" id="com.terradue.ogf.schema.jsdl.impl">
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.1/@children.2/@sourceConnections.0 //@children.2/@children.3/@sourceConnections.4 //@children.2/@children.6/@sourceConnections.5" name="JSDLDocument" location="50,50" size="143,87" id="com.terradue.ogf.schema.jsdl/JSDLDocument" runTimeClassModel="getJobDefinition()">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="120,18">
+        <children xsi:type="editmodel:MethodEditModel" name="getJobDefinition" id="com.terradue.ogf.schema.jsdl/JSDLDocument#getJobDefinition()"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" name="com.terradue.ssegrid.sagaext" location="50,579" size="638,696" id="com.terradue.ssegrid.sagaext">
+    <children xsi:type="editmodel:ClassEditModel" name="JobServiceAssistant" location="50,50" size="316,265" id="com.terradue.ssegrid.sagaext/JobServiceAssistant" runTimeClassModel="readSimpleOutputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;),JobServiceAssistant(Lorg.ogf.saga.job.JobService;),readExitMessages(Lcom.terradue.ogf.saga.impl.job.JobImpl;),writeComplexInputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;Ljava.util.Map;),addSubstitutionVariables(Ljava.util.Map;),substituteSimpleInputs(Lcom.terradue.ogf.saga.impl.job.JobDescription;Ljava.util.Map;),log,readComplexOutputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;[Ljava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="64,18">
+        <children xsi:type="editmodel:AttributeEditModel" name="log" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#log"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="293,198">
+        <children xsi:type="editmodel:MethodEditModel" name="JobServiceAssistant" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#JobServiceAssistant(Lorg.ogf.saga.job.JobService;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="addSubstitutionVariables" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#addSubstitutionVariables(Ljava.util.Map;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="readSimpleOutputs" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#readSimpleOutputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="readComplexOutputs" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#readComplexOutputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;[Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="readComplexOutputs" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#readComplexOutputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;[Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="substituteSimpleInputs" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#substituteSimpleInputs(Lcom.terradue.ogf.saga.impl.job.JobDescription;Ljava.util.Map;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="writeComplexInputs" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#writeComplexInputs(Lcom.terradue.ogf.saga.impl.job.JobImpl;Ljava.util.Map;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="readExitMessages" id="com.terradue.ssegrid.sagaext/JobServiceAssistant#readExitMessages(Lcom.terradue.ogf.saga.impl.job.JobImpl;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ssegrid.sagaext/JobServiceAssistant-Soyatec::Import->org.ogf.saga.job/JobService" source="//@children.1/@children.0" target="//@children.2/@children.5" targetEnd="//@children.1/@children.0/@sourceConnections.0/@children.2" label="//@children.1/@children.0/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@children.0/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="35,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="316,191" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,22"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ssegrid.sagaext/JobServiceAssistant-Standard::Call->com.terradue.ogf.saga.impl.job/JobServiceImpl*com.terradue.ssegrid.sagaext/JobServiceAssistant-Soyatec::Import->com.terradue.ogf.saga.impl.job/JobServiceImpl" source="//@children.1/@children.0" target="//@children.2/@children.6" targetEnd="//@children.1/@children.0/@sourceConnections.1/@children.2" label="//@children.1/@children.0/@sourceConnections.1/@children.0" sourceEnd="//@children.1/@children.0/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Call»" size="55,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="316,215" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,53"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" name="MyProxyClient" location="50,608" size="182,67" id="com.terradue.ssegrid.sagaext/MyProxyClient" runTimeClassModel="delegateProxyFromMyProxyServer(Ljava.lang.String;ILjava.lang.String;Ljava.lang.String;ILorg.ogf.saga.context.Context;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="159,18">
+        <children xsi:type="editmodel:MethodEditModel" name="delegateProxyFromMyProxyServer" id="com.terradue.ssegrid.sagaext/MyProxyClient#delegateProxyFromMyProxyServer(Ljava.lang.String;ILjava.lang.String;Ljava.lang.String;ILorg.ogf.saga.context.Context;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" name="ProcessingRegistry" location="50,365" size="206,193" id="com.terradue.ssegrid.sagaext/ProcessingRegistry" runTimeClassModel="getJSDLFromProc(Ljava.lang.String;),unregisterProcessing(Ljava.lang.String;),listProcessing(),registerProcessing(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;),registerProcessing(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;Ljava.lang.String;),log,isSyncedWithDisk(),ProcessingRegistry(Z)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="64,18">
+        <children xsi:type="editmodel:AttributeEditModel" name="log" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#log"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="217,126">
+        <children xsi:type="editmodel:MethodEditModel" name="ProcessingRegistry" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#ProcessingRegistry(Z)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="registerProcessing" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#registerProcessing(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="unregisterProcessing" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#unregisterProcessing(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listProcessing" location="6,93" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#listProcessing()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getJSDLFromProc" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#getJSDLFromProc(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isSyncedWithDisk" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#isSyncedWithDisk()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="registerProcessing" id="com.terradue.ssegrid.sagaext/ProcessingRegistry#registerProcessing(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;Ljava.lang.String;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ssegrid.sagaext/ProcessingRegistry-Standard::Call->com.terradue.ogf.schema.jsdl/JSDLDocument*com.terradue.ssegrid.sagaext/ProcessingRegistry-Soyatec::Import->com.terradue.ogf.schema.jsdl/JSDLDocument" source="//@children.1/@children.2" target="//@children.0/@children.0" targetEnd="//@children.1/@children.2/@sourceConnections.0/@children.2" label="//@children.1/@children.2/@sourceConnections.0/@children.0" sourceEnd="//@children.1/@children.2/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Call»" size="55,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="168,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="41,87"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showPackageMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+  </children>
+  <children xsi:type="editmodel:PackageEditModel" name="com.terradue.ogf.saga.impl.job" location="967,50" size="902,1362" id="com.terradue.ogf.saga.impl.job">
+    <children xsi:type="editmodel:ClassEditModel" name="String" location="50,2387" id="java.lang/String">
+      <children xsi:type="editmodel:CompartmentEditModel">
+        <children xsi:type="editmodel:AttributeEditModel" name="cASE_INSENSITIVE_ORDER" id="java.lang/String#cASE_INSENSITIVE_ORDER"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel">
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BIII)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([B)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([CII)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BLjava.nio.charset.Charset;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([C)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BIILjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BI)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BII)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String(Ljava.lang.StringBuilder;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BLjava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([BIILjava.nio.charset.Charset;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String([III)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="String" id="java.lang/String#String(Ljava.lang.StringBuffer;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="charAt" id="java.lang/String#charAt(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="codePointAt" id="java.lang/String#codePointAt(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="codePointBefore" id="java.lang/String#codePointBefore(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="codePointCount" id="java.lang/String#codePointCount(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="compareTo" id="java.lang/String#compareTo(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="compareTo" id="java.lang/String#compareTo(Ljava.lang.Object;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="compareToIgnoreCase" id="java.lang/String#compareToIgnoreCase(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="concat" id="java.lang/String#concat(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="contains" id="java.lang/String#contains(Ljava.lang.CharSequence;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="contentEquals" id="java.lang/String#contentEquals(Ljava.lang.CharSequence;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="contentEquals" id="java.lang/String#contentEquals(Ljava.lang.StringBuffer;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="copyValueOf" id="java.lang/String#copyValueOf([CII)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="copyValueOf" id="java.lang/String#copyValueOf([C)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="endsWith" id="java.lang/String#endsWith(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="equals" id="java.lang/String#equals(Ljava.lang.Object;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="equalsIgnoreCase" id="java.lang/String#equalsIgnoreCase(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="format" id="java.lang/String#format(Ljava.util.Locale;Ljava.lang.String;[Ljava.lang.Object;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="format" id="java.lang/String#format(Ljava.lang.String;[Ljava.lang.Object;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getBytes" id="java.lang/String#getBytes()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getBytes" id="java.lang/String#getBytes(II[BI)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getBytes" id="java.lang/String#getBytes(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getBytes" id="java.lang/String#getBytes(Ljava.nio.charset.Charset;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getChars" id="java.lang/String#getChars(II[CI)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="hashCode" id="java.lang/String#hashCode()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="java.lang/String#indexOf(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="java.lang/String#indexOf(Ljava.lang.String;I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="java.lang/String#indexOf(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="indexOf" id="java.lang/String#indexOf(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="intern" id="java.lang/String#intern()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isEmpty" id="java.lang/String#isEmpty()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="lastIndexOf" id="java.lang/String#lastIndexOf(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="lastIndexOf" id="java.lang/String#lastIndexOf(Ljava.lang.String;I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="lastIndexOf" id="java.lang/String#lastIndexOf(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="lastIndexOf" id="java.lang/String#lastIndexOf(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="length" id="java.lang/String#length()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="matches" id="java.lang/String#matches(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="offsetByCodePoints" id="java.lang/String#offsetByCodePoints(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="regionMatches" id="java.lang/String#regionMatches(ZILjava.lang.String;II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="regionMatches" id="java.lang/String#regionMatches(ILjava.lang.String;II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="replace" id="java.lang/String#replace(CC)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="replace" id="java.lang/String#replace(Ljava.lang.CharSequence;Ljava.lang.CharSequence;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="replaceAll" id="java.lang/String#replaceAll(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="replaceFirst" id="java.lang/String#replaceFirst(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="split" id="java.lang/String#split(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="startsWith" id="java.lang/String#startsWith(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="startsWith" id="java.lang/String#startsWith(Ljava.lang.String;I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="subSequence" id="java.lang/String#subSequence(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="substring" id="java.lang/String#substring(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="substring" id="java.lang/String#substring(II)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toCharArray" id="java.lang/String#toCharArray()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toLowerCase" id="java.lang/String#toLowerCase()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toLowerCase" id="java.lang/String#toLowerCase(Ljava.util.Locale;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toString" id="java.lang/String#toString()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toUpperCase" id="java.lang/String#toUpperCase()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="toUpperCase" id="java.lang/String#toUpperCase(Ljava.util.Locale;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="trim" id="java.lang/String#trim()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(Ljava.lang.Object;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(D)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf([CII)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(F)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf([C)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(Z)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="valueOf" id="java.lang/String#valueOf(J)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.2/@children.3/@sourceConnections.3 //@children.2/@children.6/@sourceConnections.4" name="JobDescriptionImpl" location="50,937" size="198,337" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl" runTimeClassModel="listAttributes(),findAttributes([Ljava.lang.String;),removeAttribute(Ljava.lang.String;),JobDescriptionImpl(Lcom.terradue.ogf.saga.impl.job.JobDescriptionImpl;),getAttribute(Ljava.lang.String;),setAttribute(Ljava.lang.String;Ljava.lang.String;),JobDescriptionImpl(),setVectorAttribute(Ljava.lang.String;[Ljava.lang.String;),clone(),isVectorAttribute(Ljava.lang.String;),isWritableAttribute(Ljava.lang.String;),existsAttribute(Ljava.lang.String;),isReadOnlyAttribute(Ljava.lang.String;),attributes,isRemovableAttribute(Ljava.lang.String;),getVectorAttribute(Ljava.lang.String;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="158,36">
+        <children xsi:type="editmodel:AttributeEditModel" name="attributes" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#attributes"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="175,270">
+        <children xsi:type="editmodel:MethodEditModel" name="JobDescriptionImpl" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#JobDescriptionImpl(Lcom.terradue.ogf.saga.impl.job.JobDescriptionImpl;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="JobDescriptionImpl" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#JobDescriptionImpl()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="clone" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#clone()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#getAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="existsAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#existsAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="setVectorAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#setVectorAttribute(Ljava.lang.String;[Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="removeAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#removeAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isVectorAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#isVectorAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="setAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#setAttribute(Ljava.lang.String;Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getVectorAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#getVectorAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="listAttributes" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#listAttributes()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isRemovableAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#isRemovableAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="findAttributes" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#findAttributes([Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isReadOnlyAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#isReadOnlyAttribute(Ljava.lang.String;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="isWritableAttribute" id="com.terradue.ogf.saga.impl.job/JobDescriptionImpl#isWritableAttribute(Ljava.lang.String;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@children.3/@sourceConnections.1" name="JobDescription" location="530,50" size="168,509" id="org.ogf.saga.job/JobDescription" runTimeClassModel="wORKINGDIRECTORY,cPUARCHITECTURE,tOTALPHYSICALMEMORY,sPMDVARIATION,iNTERACTIVE,pROCESSESPERHOST,tHREADSPERPROCESS,eXECUTABLE,oPERATINGSYSTEMTYPE,tOTALCPUCOUNT,oUTPUT,nUMBEROFPROCESSES,cLEANUP,eNVIRONMENT,iNPUT,jOBCONTACT,cANDIDATEHOSTS,qUEUE,fILETRANSFER,jOBPROJECT,aRGUMENTS,tOTALCPUTIME,jOBSTARTTIME,wALLTIMELIMIT,eRROR">
+      <children xsi:type="editmodel:CompartmentEditModel" size="145,450">
+        <children xsi:type="editmodel:AttributeEditModel" name="aRGUMENTS" id="org.ogf.saga.job/JobDescription#aRGUMENTS"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="cANDIDATEHOSTS" id="org.ogf.saga.job/JobDescription#cANDIDATEHOSTS"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="cLEANUP" id="org.ogf.saga.job/JobDescription#cLEANUP"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="cPUARCHITECTURE" id="org.ogf.saga.job/JobDescription#cPUARCHITECTURE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="eNVIRONMENT" id="org.ogf.saga.job/JobDescription#eNVIRONMENT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="eRROR" id="org.ogf.saga.job/JobDescription#eRROR"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="eXECUTABLE" id="org.ogf.saga.job/JobDescription#eXECUTABLE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="fILETRANSFER" id="org.ogf.saga.job/JobDescription#fILETRANSFER"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="iNPUT" id="org.ogf.saga.job/JobDescription#iNPUT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="iNTERACTIVE" id="org.ogf.saga.job/JobDescription#iNTERACTIVE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOBCONTACT" id="org.ogf.saga.job/JobDescription#jOBCONTACT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOBPROJECT" id="org.ogf.saga.job/JobDescription#jOBPROJECT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOBSTARTTIME" id="org.ogf.saga.job/JobDescription#jOBSTARTTIME"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="nUMBEROFPROCESSES" id="org.ogf.saga.job/JobDescription#nUMBEROFPROCESSES"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="oPERATINGSYSTEMTYPE" id="org.ogf.saga.job/JobDescription#oPERATINGSYSTEMTYPE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="oUTPUT" id="org.ogf.saga.job/JobDescription#oUTPUT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="pROCESSESPERHOST" id="org.ogf.saga.job/JobDescription#pROCESSESPERHOST"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="qUEUE" id="org.ogf.saga.job/JobDescription#qUEUE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="sPMDVARIATION" id="org.ogf.saga.job/JobDescription#sPMDVARIATION"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="tHREADSPERPROCESS" id="org.ogf.saga.job/JobDescription#tHREADSPERPROCESS"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="tOTALCPUCOUNT" id="org.ogf.saga.job/JobDescription#tOTALCPUCOUNT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="tOTALCPUTIME" id="org.ogf.saga.job/JobDescription#tOTALCPUTIME"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="tOTALPHYSICALMEMORY" id="org.ogf.saga.job/JobDescription#tOTALPHYSICALMEMORY"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="wALLTIMELIMIT" id="org.ogf.saga.job/JobDescription#wALLTIMELIMIT"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="wORKINGDIRECTORY" id="org.ogf.saga.job/JobDescription#wORKINGDIRECTORY"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.2/@children.6/@sourceConnections.1" name="JobFactory" location="453,638" size="326,175" id="com.terradue.ogf.saga.impl.job/JobFactory" runTimeClassModel="createJobService(Lorg.ogf.saga.session.Session;),createJobDescription(),createJobDescription(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;),createJobService(),createJobService(Lorg.ogf.saga.url.URL;),createJobService(Lorg.ogf.saga.session.Session;Lorg.ogf.saga.url.URL;)">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="303,126">
+        <children xsi:type="editmodel:MethodEditModel" name="createJobDescription" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobDescription(Lcom.terradue.ogf.schema.jsdl.JSDLDocument;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJobDescription" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobDescription()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJobService" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobService()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJobService" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobService(Lorg.ogf.saga.session.Session;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJobService" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobService(Lorg.ogf.saga.url.URL;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJobService" id="com.terradue.ogf.saga.impl.job/JobFactory#createJobService(Lorg.ogf.saga.session.Session;Lorg.ogf.saga.url.URL;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobFactory-Soyatec::Import->org.ogf.saga.job/JobService" source="//@children.2/@children.3" target="//@children.2/@children.5" targetEnd="//@children.2/@children.3/@sourceConnections.0/@children.2" label="//@children.2/@children.3/@sourceConnections.0/@children.0" sourceEnd="//@children.2/@children.3/@sourceConnections.0/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="35,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="271,175" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="54,0"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobFactory-Soyatec::Import->org.ogf.saga.job/JobDescription" source="//@children.2/@children.3" target="//@children.2/@children.2" targetEnd="//@children.2/@children.3/@sourceConnections.1/@children.2" label="//@children.2/@children.3/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@children.3/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="35,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="160,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="83,509"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobFactory-Standard::Instantiate->com.terradue.ogf.saga.impl.job/JobServiceImpl*com.terradue.ogf.saga.impl.job/JobFactory-Soyatec::Import->com.terradue.ogf.saga.impl.job/JobServiceImpl" source="//@children.2/@children.3" target="//@children.2/@children.6" targetEnd="//@children.2/@children.3/@sourceConnections.2/@children.2" label="//@children.2/@children.3/@sourceConnections.2/@children.0" sourceEnd="//@children.2/@children.3/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate»" size="81,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="245,175" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="79,0"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobFactory-Standard::Call->com.terradue.ogf.saga.impl.job/JobDescriptionImpl*com.terradue.ogf.saga.impl.job/JobFactory-Standard::Instantiate->com.terradue.ogf.saga.impl.job/JobDescriptionImpl*com.terradue.ogf.saga.impl.job/JobFactory-Soyatec::Import->com.terradue.ogf.saga.impl.job/JobDescriptionImpl" source="//@children.2/@children.3" target="//@children.2/@children.1" targetEnd="//@children.2/@children.3/@sourceConnections.3/@children.2" label="//@children.2/@children.3/@sourceConnections.3/@children.0" sourceEnd="//@children.2/@children.3/@sourceConnections.3/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Instantiate, Call»" size="100,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="82,175" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="198,61"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobFactory-Standard::Call->com.terradue.ogf.schema.jsdl/JSDLDocument*com.terradue.ogf.saga.impl.job/JobFactory-Soyatec::Import->com.terradue.ogf.schema.jsdl/JSDLDocument" source="//@children.2/@children.3" target="//@children.0/@children.0" targetEnd="//@children.2/@children.3/@sourceConnections.4/@children.2" label="//@children.2/@children.3/@sourceConnections.4/@children.0" sourceEnd="//@children.2/@children.3/@sourceConnections.4/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Call»" size="55,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,24" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="143,71"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@children.6/@sourceConnections.2" name="Job" location="1002,1656" size="267,681" id="org.ogf.saga.job/Job" runTimeClassModel="wORKINGDIRECTORY,getStderr(Lorg.ogf.saga.task.TaskMode;),eXECUTIONHOSTS,cREATED,checkpoint(),getStdout(Lorg.ogf.saga.task.TaskMode;),getStdin(Lorg.ogf.saga.task.TaskMode;),jOB_MEMORYUSE,sTARTED,eXITCODE,tERMSIG,getJobDescription(Lorg.ogf.saga.task.TaskMode;),fINISHED,getJobDescription(),jOB_VMEMORYUSE,resume(),signal(Lorg.ogf.saga.task.TaskMode;I),jOB_STATEDETAIL,jOB_STATE,migrate(Lorg.ogf.saga.task.TaskMode;Lorg.ogf.saga.job.JobDescription;),suspend(),resume(Lorg.ogf.saga.task.TaskMode;),checkpoint(Lorg.ogf.saga.task.TaskMode;),getStdin(),signal(I),suspend(Lorg.ogf.saga.task.TaskMode;),getStdout(),migrate(Lorg.ogf.saga.job.JobDescription;),jOB_PERFORMANCE,sERVICEURL,jOB_SIGNAL,jOB_CPUTIME,getStderr(),jOBID">
+      <children xsi:type="editmodel:CompartmentEditModel" size="129,288">
+        <children xsi:type="editmodel:AttributeEditModel" name="cREATED" id="org.ogf.saga.job/Job#cREATED"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="eXECUTIONHOSTS" location="-13,68" id="org.ogf.saga.job/Job#eXECUTIONHOSTS"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="eXITCODE" id="org.ogf.saga.job/Job#eXITCODE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="fINISHED" id="org.ogf.saga.job/Job#fINISHED"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOBID" id="org.ogf.saga.job/Job#jOBID"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_CPUTIME" id="org.ogf.saga.job/Job#jOB_CPUTIME"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_MEMORYUSE" id="org.ogf.saga.job/Job#jOB_MEMORYUSE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_PERFORMANCE" id="org.ogf.saga.job/Job#jOB_PERFORMANCE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_SIGNAL" id="org.ogf.saga.job/Job#jOB_SIGNAL"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_STATE" id="org.ogf.saga.job/Job#jOB_STATE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_STATEDETAIL" id="org.ogf.saga.job/Job#jOB_STATEDETAIL"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="jOB_VMEMORYUSE" id="org.ogf.saga.job/Job#jOB_VMEMORYUSE"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="sERVICEURL" id="org.ogf.saga.job/Job#sERVICEURL"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="sTARTED" id="org.ogf.saga.job/Job#sTARTED"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="tERMSIG" id="org.ogf.saga.job/Job#tERMSIG"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="wORKINGDIRECTORY" id="org.ogf.saga.job/Job#wORKINGDIRECTORY"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="244,324">
+        <children xsi:type="editmodel:MethodEditModel" name="checkpoint" id="org.ogf.saga.job/Job#checkpoint(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="checkpoint" id="org.ogf.saga.job/Job#checkpoint()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getJobDescription" id="org.ogf.saga.job/Job#getJobDescription(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getJobDescription" id="org.ogf.saga.job/Job#getJobDescription()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStderr" id="org.ogf.saga.job/Job#getStderr(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStderr" id="org.ogf.saga.job/Job#getStderr()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStdin" id="org.ogf.saga.job/Job#getStdin(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStdin" id="org.ogf.saga.job/Job#getStdin()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStdout" id="org.ogf.saga.job/Job#getStdout(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getStdout" id="org.ogf.saga.job/Job#getStdout()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="migrate" id="org.ogf.saga.job/Job#migrate(Lorg.ogf.saga.task.TaskMode;Lorg.ogf.saga.job.JobDescription;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="migrate" id="org.ogf.saga.job/Job#migrate(Lorg.ogf.saga.job.JobDescription;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="resume" id="org.ogf.saga.job/Job#resume()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="resume" id="org.ogf.saga.job/Job#resume(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="signal" id="org.ogf.saga.job/Job#signal(I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="signal" id="org.ogf.saga.job/Job#signal(Lorg.ogf.saga.task.TaskMode;I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="suspend" id="org.ogf.saga.job/Job#suspend(Lorg.ogf.saga.task.TaskMode;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="suspend" id="org.ogf.saga.job/Job#suspend()"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true" showAssociationMember="true"/>
+    </children>
+    <children xsi:type="editmodel:InterfaceEditModel" targetConnections="//@children.2/@children.6/@sourceConnections.0 //@children.1/@children.0/@sourceConnections.0 //@children.2/@children.3/@sourceConnections.0 //@children.2/@children.6/@sourceConnections.3" name="JobService" location="670,1203" size="161,105" id="org.ogf.saga.job/JobService" runTimeClassModel="">
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <children xsi:type="editmodel:CompartmentEditModel" size="138,36">
+        <children xsi:type="editmodel:MethodEditModel" name="createJob" id="org.ogf.saga.job/JobService#createJob(Lorg.ogf.saga.job.JobDescription;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="runJob" id="org.ogf.saga.job/JobService#runJob(Ljava.lang.String;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3"/>
+    </children>
+    <children xsi:type="editmodel:ClassEditModel" targetConnections="//@children.1/@children.0/@sourceConnections.1 //@children.2/@children.3/@sourceConnections.2" name="JobServiceImpl" location="619,1358" size="264,247" id="com.terradue.ogf.saga.impl.job/JobServiceImpl" runTimeClassModel="substitutionVars,rm,addSubstitutionVariables(Ljava.util.Map;),substituteVariables(Ljava.util.Map;Lcom.terradue.ogf.saga.impl.job.JobDescription;),getSession(),JobServiceImpl(Lorg.ogf.saga.session.Session;Lorg.ogf.saga.url.URL;),createJob(Lcom.terradue.ogf.saga.impl.job.JobDescription;),createJob(Lcom.terradue.ogf.saga.impl.job.JobDescription;I),getSubstitutionVars(),substituteVariables(Ljava.util.Map;Ljava.lang.String;),log">
+      <children xsi:type="editmodel:CompartmentEditModel" size="166,54">
+        <children xsi:type="editmodel:AttributeEditModel" name="substitutionVars" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#substitutionVars"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="rm" location="-26,46" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#rm"/>
+        <children xsi:type="editmodel:AttributeEditModel" name="log" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#log"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="241,144">
+        <children xsi:type="editmodel:MethodEditModel" name="JobServiceImpl" location="10,61" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#JobServiceImpl(Lorg.ogf.saga.session.Session;Lorg.ogf.saga.url.URL;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="substituteVariables" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#substituteVariables(Ljava.util.Map;Lcom.terradue.ogf.saga.impl.job.JobDescription;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="addSubstitutionVariables" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#addSubstitutionVariables(Ljava.util.Map;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJob" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#createJob(Lcom.terradue.ogf.saga.impl.job.JobDescription;)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getSession" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#getSession()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="getSubstitutionVars" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#getSubstitutionVars()"/>
+        <children xsi:type="editmodel:MethodEditModel" name="createJob" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#createJob(Lcom.terradue.ogf.saga.impl.job.JobDescription;I)"/>
+        <children xsi:type="editmodel:MethodEditModel" name="substituteVariables" id="com.terradue.ogf.saga.impl.job/JobServiceImpl#substituteVariables(Ljava.util.Map;Ljava.lang.String;)"/>
+      </children>
+      <children xsi:type="editmodel:CompartmentEditModel" size="0,0"/>
+      <sourceConnections xsi:type="editmodel:GeneralizationEditModel" autoLocated="true" id="org.ogf.saga.job/JobService&lt;-com.terradue.ogf.saga.impl.job/JobServiceImpl" source="//@children.2/@children.6" target="//@children.2/@children.5" targetEnd="//@children.2/@children.6/@sourceConnections.0/@children.1" sourceEnd="//@children.2/@children.6/@sourceConnections.0/@children.0" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:AssociationEndEditModel" location="141,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="90,105"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobServiceImpl-Standard::Call->com.terradue.ogf.saga.impl.job/JobFactory" source="//@children.2/@children.6" target="//@children.2/@children.3" targetEnd="//@children.2/@children.6/@sourceConnections.1/@children.2" label="//@children.2/@children.6/@sourceConnections.1/@children.0" sourceEnd="//@children.2/@children.6/@sourceConnections.1/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Call»" size="23,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="89,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="255,175"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobServiceImpl-Standard::Call->org.ogf.saga.job/Job*com.terradue.ogf.saga.impl.job/JobServiceImpl-Soyatec::Import->org.ogf.saga.job/Job" source="//@children.2/@children.6" target="//@children.2/@children.4" targetEnd="//@children.2/@children.6/@sourceConnections.2/@children.2" label="//@children.2/@children.6/@sourceConnections.2/@children.0" sourceEnd="//@children.2/@children.6/@sourceConnections.2/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" size="55,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="224,247" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,162"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobServiceImpl-Standard::Call->org.ogf.saga.job/JobService*com.terradue.ogf.saga.impl.job/JobServiceImpl-Soyatec::Import->org.ogf.saga.job/JobService*com.terradue.ogf.saga.impl.job/JobServiceImpl-Soyatec::Implement->org.ogf.saga.job/JobService" source="//@children.2/@children.6" target="//@children.2/@children.5" targetEnd="//@children.2/@children.6/@sourceConnections.3/@children.2" label="//@children.2/@children.6/@sourceConnections.3/@children.0" sourceEnd="//@children.2/@children.6/@sourceConnections.3/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Implement, Call»" size="101,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="131,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="80,105"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobServiceImpl-Standard::Call->com.terradue.ogf.saga.impl.job/JobDescriptionImpl*com.terradue.ogf.saga.impl.job/JobServiceImpl-Soyatec::Import->com.terradue.ogf.saga.impl.job/JobDescriptionImpl" source="//@children.2/@children.6" target="//@children.2/@children.1" targetEnd="//@children.2/@children.6/@sourceConnections.4/@children.2" label="//@children.2/@children.6/@sourceConnections.4/@children.0" sourceEnd="//@children.2/@children.6/@sourceConnections.4/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import, Call»" size="55,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="0,21" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="198,316"/>
+      </sourceConnections>
+      <sourceConnections xsi:type="editmodel:DependencyEditModel" autoLocated="true" id="com.terradue.ogf.saga.impl.job/JobServiceImpl-Soyatec::Import->com.terradue.ogf.schema.jsdl/JSDLDocument" source="//@children.2/@children.6" target="//@children.0/@children.0" targetEnd="//@children.2/@children.6/@sourceConnections.5/@children.2" label="//@children.2/@children.6/@sourceConnections.5/@children.0" sourceEnd="//@children.2/@children.6/@sourceConnections.5/@children.1" connectionRouterKind="Manual">
+        <children xsi:type="editmodel:WireLabelEditModel" name="«Import»" size="35,10" anchorKind="MiddlePart"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="13,0" attachSource="true"/>
+        <children xsi:type="editmodel:AssociationEndEditModel" location="114,87"/>
+      </sourceConnections>
+      <classifierPreferences xsi:type="editmodel:UMLClassDiagramClassifierPreference" showStereotype="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+    </children>
+  </children>
+  <diagramOptions xsi:type="options:ClassDiagramOptions" properties="wireOptions=7;Product=eUML2" autoName="false"/>
+  <boardSetting snapToGeometry="true" gridEnabled="true" gridSpacing="15,15" gridOrigin="0,0" rulerUnit="pixel" gridVisibility="false">
+    <leftRuler/>
+    <topRuler/>
+  </boardSetting>
+  <classDiagramPreferences xsi:type="editmodel:UMLClassDiagramPreference" showPopupBars="true" showConnectionHandles="true" showMethodsParameterTypes="true" showMethodsReturnType="true" attributeSorter="Natural" methodSorter="Natural" showClassStereotype="true" showPackageStereotype="true" showDependencyStereotype="true" showInterfaceStereotype="true" innerClassSorter="Natural" showPublicAttributes="true" showPackageAttributes="true" showStaticAttributes="true" showPublicMethods="true" showStaticMethods="true" showPublicInnerClasses="true" showPackageInnerClasses="true" showStaticInnerClasses="true" packageIndication="3" showAttributeProperty="true"/>
+</editmodel:ClassDiagramEditModel>

@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.7.1
+Created-By: 16.3-b01 (Sun Microsystems Inc.)
+NSEntrySpi-class: org.ogf.saga.adaptors.javaGAT.namespace.NSEntryAdapt
+ or
+NSDirectorySpi-class: org.ogf.saga.adaptors.javaGAT.namespace.NSDirect
+ oryAdaptor
+FileSpi-class: org.ogf.saga.adaptors.javaGAT.file.FileAdaptor
+DirectorySpi-class: org.ogf.saga.adaptors.javaGAT.file.DirectoryAdapto
+ r
+FileInputStreamSpi-class: org.ogf.saga.adaptors.javaGAT.file.FileInput
+ StreamAdaptor
+FileOutputStreamSpi-class: org.ogf.saga.adaptors.javaGAT.file.FileOutp
+ utStreamAdaptor
+StreamSpi-class: org.ogf.saga.adaptors.javaGAT.stream.StreamAdaptor
+StreamServerSpi-class: org.ogf.saga.adaptors.javaGAT.stream.StreamServ
+ erAdaptor
+JobServiceSpi-class: org.ogf.saga.adaptors.javaGAT.job.JobServiceAdapt
+ or
+ContextInitializerSpi-class: org.ogf.saga.adaptors.javaGAT.ContextInit
+ ializerAdaptor
+

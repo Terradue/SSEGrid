@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- * * ImportMODIS processing template JSDL. * * -->
+<jsdl:JobDefinition xmlns:jsdl="http://schemas.ggf.org/jsdl/2005/11/jsdl"
+	xmlns:jsdl-spmd="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.ggf.org/jsdl/2005/11/jsdl http://schemas.ggf.org/jsdl/2005/11/jsdl">
+	<jsdl:JobDescription>
+		<!-- This part is the identification and the description of the job -->
+		<jsdl:JobIdentification>
+			<!-- the JOB_UID keyword is used here in order to identify the job during 
+				processing -->
+			<jsdl:JobName>ImportMODIS</jsdl:JobName>
+			<!-- Some Description -->
+			<jsdl:Description>Import of the MODIS products as part of the FAPAR
+				processing chain</jsdl:Description>
+			<jsdl:JobProject>SSEGrid</jsdl:JobProject>
+		</jsdl:JobIdentification>
+		<!-- This section describes the application following the SPMD extension -->
+		<jsdl:Application>
+			<jsdl:ApplicationName>ImportMODIS</jsdl:ApplicationName>
+			<jsdl-spmd:SPMDApplication
+				xmlns:jsdl-posix="http://schemas.ggf.org/jsdl/2005/11/jsdl-posix"
+				xsi:schemaLocation="http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd http://schemas.ogf.org/jsdl/2007/02/jsdl-spmd"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+				<jsdl-posix:Executable>ImportMODIS4GRID.sh</jsdl-posix:Executable>
+				<!-- The arguments in this case are the point defining the bounding box -->
+				<jsdl-posix:Argument>${WPS_INPUT_roiTopLeftLat}
+				</jsdl-posix:Argument>
+				<jsdl-posix:Argument>${WPS_INPUT_roiTopLeftLon}
+				</jsdl-posix:Argument>
+				<jsdl-posix:Argument>${WPS_INPUT_roiBottomRightLat}
+				</jsdl-posix:Argument>
+				<jsdl-posix:Argument>${WPS_INPUT_roiBottomRightLon}
+				</jsdl-posix:Argument>
+				<!-- and some other corresponfing to the interface of the processing -->
+				<jsdl-posix:Argument>${WPS_INPUT_stopOnError}
+				</jsdl-posix:Argument>
+				<jsdl-posix:Argument>${WPS_INPUT_destinationURL}
+				</jsdl-posix:Argument>
+				<!-- The product list is passed via stdin and is splitted in N number 
+					of tasks N.B. The grid infrastructure provides an operation to prepare those 
+					lists from XML list -->
+				<jsdl-posix:Input>inputURLs.${GAI_TASK_ID}</jsdl-posix:Input>
+				<jsdl-posix:Output>task${GAI_TASK_ID}.stdout</jsdl-posix:Output>
+				<jsdl-posix:Error>task${GAI_TASK_ID}.stderr</jsdl-posix:Error>
+				<!-- Specified here on purpose but same by default -->
+				<jsdl-posix:WorkingDirectory>${GAI_JOB_WORKING_DIR}
+				</jsdl-posix:WorkingDirectory>
+				<!-- needed by VITO in their SMAC script -->
+				<jsdl-posix:Environment name="chain_id">${WPS_INPUT_workflowId}
+				</jsdl-posix:Environment>
+				<!-- the lib dir of the working dir must be in LD_LIBRARY_PATH environment 
+					variable -->
+				<jsdl-posix:Environment name="LD_LIBRARY_PATH">${JOB_WORKING_DIR}/lib
+				</jsdl-posix:Environment>
+				<!-- the number of tasks in the job -->
+				<jsdl-spmd:NumberOfProcesses>${WPS_INPUT_numberOfTasks}
+				</jsdl-spmd:NumberOfProcesses>
+				<jsdl-spmd:SPMDVariation>http://ssegrid.esa.int/jsdl-spmd/multiTasks
+				</jsdl-spmd:SPMDVariation>
+			</jsdl-spmd:SPMDApplication>
+		</jsdl:Application>
+		<jsdl:DataStaging>
+			<!-- Stage-in all the scripts, libraries and auxiliary files necessary 
+				for the job to run. They are packaged in a single tar file -->
+			<jsdl:FileName>Application.tgz</jsdl:FileName>
+			<jsdl:Source>
+				<jsdl:URI>${WPS_DEPLOY_PROCESS_DIR}/ImportMODIS/Application.tgz</jsdl:URI>
+			</jsdl:Source>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- Stage-in all the scripts, libraries and auxiliary files necessary 
+				for the job to run. They are packaged in a single tar file -->
+			<jsdl:FileName>ImportMODIS4GRID.sh</jsdl:FileName>
+			<jsdl:Source>
+				<jsdl:URI>${WPS_DEPLOY_PROCESS_DIR}/ImportMODIS/ImportMODIS4GRID.sh</jsdl:URI>
+			</jsdl:Source>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- Stage-in list of products to process (URLs) by each task -->
+			<jsdl:FileName>inputURLs.${GAI_TASK_ID}</jsdl:FileName>
+			<jsdl:Source>
+				<jsdl:URI>${WPS_JOB_INPUTS_DIR}/inputURLs.${GAI_TASK_ID}</jsdl:URI>
+			</jsdl:Source>
+		</jsdl:DataStaging>
+		<!-- Not needed????? -->
+		<jsdl:DataStaging>
+			<!-- Stage-out script exit message (of each task) -->
+			<jsdl:FileName>exitMessage.${GAI_TASK_ID}</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/exitMessage.${GAI_TASK_ID}</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- Stage-out stdout (of each task) -->
+			<jsdl:FileName>stdout.${GAI_TASK_ID}</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/stdout.${GAI_TASK_ID}</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- Stage-out stderr (of each task) -->
+			<jsdl:FileName>stderr.${GAI_TASK_ID}</jsdl:FileName>
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/stderr.${GAI_TASK_ID}</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- The application will create the result file with URLs of imported 
+				products -->
+			<!-- here for each task -->
+			<jsdl:FileName>importedList.${GAI_TASK_ID}</jsdl:FileName>
+			<!-- It will be staged back by task id -->
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/importedList.${GAI_TASK_ID}</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- The application will create a file with the number of
+			file imported --> 
+			<jsdl:FileName>nbrImportedProduct</jsdl:FileName>
+			<!-- It will be staged back by task id -->
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/nbrImportedProduct</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+		<jsdl:DataStaging>
+			<!-- The application will create the error file with URLs of non imported 
+				products -->
+			<!-- here for each task -->
+			<jsdl:FileName>productError</jsdl:FileName>
+			<!-- It will be staged back by task id -->
+			<jsdl:Target>
+				<jsdl:URI>${WPS_JOB_OUTPUTS_DIR}/productError</jsdl:URI>
+			</jsdl:Target>
+		</jsdl:DataStaging>
+	</jsdl:JobDescription>
+</jsdl:JobDefinition>

@@ -1,0 +1,8 @@
+com.terradue.ogf.saga.impl.job
+com.terradue.ogf.saga.impl.resource
+com.terradue.ogf.schema.glue
+com.terradue.ogf.schema.glue.impl
+com.terradue.ogf.schema.jsdl
+com.terradue.ogf.schema.jsdl.impl
+com.terradue.ssegrid.demo
+com.terradue.ssegrid.sagaext

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+export JAVA_SAGA_LOCATION=`cd ../ && pwd`
+export CLASSPATH="$PWD/tmp/:$CLASSPATH"
+
+$JAVA_SAGA_LOCATION/bin/run-saga-app -Xmx256M com.terradue.ssegrid.demo.testRunJob $@

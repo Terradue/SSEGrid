@@ -1,0 +1,10 @@
+WPS_INPUT_platformShortName TERRA
+WPS_INPUT_productType MODIS-L1
+WPS_INPUT_roiTopLeftLat 72
+WPS_INPUT_roiTopLeftLon -15
+WPS_INPUT_roiBottomRightLat 28
+WPS_INPUT_roiBottomRightLon 60
+WPS_INPUT_stopOnError true
+WPS_INPUT_startDate 05/05/2010 00:00:00
+WPS_INPUT_stopDate 05/05/2010 12:00:00
+WPS_INPUT_disableCache false 

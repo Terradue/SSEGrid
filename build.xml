@@ -1,0 +1,112 @@
+<project name="SAGA4SSEGrid" default="build" basedir=".">
+
+	<description>
+	Build file for the SAGA for SSEGrid.
+    </description>
+
+	<!-- Global properties -->
+
+	<property name="saga-impl" location="." />
+	<property name="src" location="${saga-impl}/src" />
+	<property name="JGsrc" location="${saga-impl}/libsrc" />
+	<property name="tmp" location="${saga-impl}/tmp-jar" />
+	<property name="JGtmp" location="${saga-impl}/JGtmp-jar" />
+	<property name="lib" location="${saga-impl}/lib" />
+	<property name="jar" location="${lib}/saga-ext-T2.jar" />
+	<property name="JGjar" location="${lib}/adaptors/JavaGatAdaptor/JavaGatAdaptor.jar" />
+
+	<target name="init" depends="clean">
+		<!-- Create the time stamp -->
+		<tstamp />
+
+		<!-- Create the build directory structure used by compile -->
+		<mkdir dir="${tmp}" />
+		<mkdir dir="${JGtmp}" />
+
+	</target>
+
+	<path id="external.jars">
+		<fileset dir="${saga-impl}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${saga-impl}/lib/adaptors/JavaGatAdaptor/adaptors/GlobusAdaptor">
+			<include name="cog*.jar" />
+		</fileset>
+	</path>
+
+	<path id="JavaGAT.jars">
+		<fileset dir="${saga-impl}/lib">
+			<include name="saga*.jar" />
+		</fileset>
+		<fileset dir="${saga-impl}/lib/adaptors/JavaGatAdaptor">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<target name="compile" depends="init" description="compile the source ">
+		<!-- Compile the java code from src into ${tmp} -->
+
+		<javac source="1.5" target="1.5" destdir="${tmp}" debug="on">
+			<src path="${src}" />
+			<exclude name="**/DemoJobSSEGrid.java" />
+			<exclude name="**/runImportMODIS.java" />
+			<exclude name="**/Test*.java" />
+			<classpath refid="external.jars" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="compile-JavaGAT" depends="init" description="compile the modified JavaSAGA JavaGAT adaptor">
+		<!-- Compile the java code from src into ${tmp} -->
+
+		<javac source="1.5" target="1.5" destdir="${JGtmp}" debug="on">
+			<src path="${JGsrc}" />
+			<classpath refid="JavaGAT.jars" />
+			<compilerarg value="-Xlint:unchecked" />
+		</javac>
+	</target>
+
+	<target name="build" depends="compile" description="build the JAR file">
+		<!-- Create the lib directory -->
+		<mkdir dir="${lib}" />
+
+		<!-- Put everything in ${tmp} into the jar file -->
+		<jar jarfile="${jar}" basedir="${tmp}" />
+
+		<!-- And delete the build dir -->
+		<delete dir="${tmp}" />
+
+	</target>
+
+	<target name="build-JavaGAT" depends="compile-JavaGAT" description="build the JAR file for modified JavaSAGA">
+
+		<!-- Put everything in ${tmp} into the jar file -->
+		<jar jarfile="${JGjar}" basedir="${JGtmp}">
+			<manifest>
+				<attribute name="NSEntrySpi-class" value="org.ogf.saga.adaptors.javaGAT.namespace.NSEntryAdaptor" />
+				<attribute name="NSDirectorySpi-class" value="org.ogf.saga.adaptors.javaGAT.namespace.NSDirectoryAdaptor" />
+				<attribute name="FileSpi-class" value="org.ogf.saga.adaptors.javaGAT.file.DirectoryAdaptor" />
+				<attribute name="FileInputStreamSpi-class" value="org.ogf.saga.adaptors.javaGAT.file.FileInputStreamAdaptor" />
+				<attribute name="FileOutputStreamSpi-class" value="org.ogf.saga.adaptors.javaGAT.file.FileOutputStreamAdaptor" />
+				<attribute name="StreamSpi-class" value="org.ogf.saga.adaptors.javaGAT.stream.StreamAdaptor" />
+				<attribute name="StreamServerSpi-class" value="org.ogf.saga.adaptors.javaGAT.stream.StreamServerAdaptor" />
+				<attribute name="JobServiceSpi-class" value="org.ogf.saga.adaptors.javaGAT.job.JobServiceAdaptor" />
+				<attribute name="ContextInitializerSpi-class" value="org.ogf.saga.adaptors.javaGAT.ContextInitializerAdaptor" />
+			</manifest>
+		</jar>
+
+		<!-- And delete the build dir -->
+		<delete dir="${JGtmp}" />
+		<!--<copy todir="${JGtmp}/">
+			<fileset dir="${src}" />
+		</copy> -->
+
+
+
+	</target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${tmp}" />
+		<delete dir="${JGtmp}" />
+	</target>
+</project>
